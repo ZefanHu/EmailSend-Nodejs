@@ -8,8 +8,8 @@ const SesClient = tencentcloud.ses.v20201002.Client;
 // 密钥可前往官网控制台 https://console.cloud.tencent.com/cam/capi 进行获取
 const clientConfig = {
     credential: {
-        secretId: "AKIDQAgvtZz32lHfqlmW0FEoDNJ2Ts5Zoopc",
-        secretKey: "f2IPIxPgjcJm25tZ2JeoiR1Wt8KTcnnd",
+        secretId: "",
+        secretKey: "",
     },
     region: "ap-guangzhou",
     profile: {
