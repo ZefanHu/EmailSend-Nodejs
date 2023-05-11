@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Sender</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+        }
+
+        .alert {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            display: none;
+        }
+
+        .alert.show {
+            display: block;
+        }
+
+        .alert.success {
+            background-color: #4caf50;
+            color: white;
+        }
+
+        .alert.error {
+            background-color: #f44336;
+            color: white;
+        }
+
+        .close-btn {
+            margin-left: 15px;
+            cursor: pointer;
+        }
+
+        button {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            transition-duration: 0.4s;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #ff9ed6;
+        }
+    </style>
+</head>
+
+<body>
+    <button id="sendEmailButton" onclick="sendEmail()">发送邮件</button>
+
+    <div id="successAlert" class="alert success">
+        邮件发送成功！
+        <span class="close-btn" onclick="closeAlert('successAlert')">&times;</span>
+    </div>
+    <div id="errorAlert" class="alert error">
+        邮件发送失败！
+        <span class="close-btn" onclick="closeAlert('errorAlert')">&times;</span>
+    </div>
+
+    <script>
+        async function sendEmail() {
+            try {
+                const response = await fetch("http://localhost:3000/sendEmail", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({}),
+                });
+
+                if (!response.ok) {
+                    throw new Error("发送失败");
+                }
+
+                const data = await response.json();
+                showAlert("successAlert");
+            } catch (error) {
+                console.error("Error:", error);
+                showAlert("errorAlert");
+            }
+        }
+
+        function showAlert(alertId) {
+            const alertElement = document.getElementById(alertId);
+            alertElement.classList.add("show");
+            setTimeout(() => {
+                closeAlert(alertId);
+            }, 3000);
+        }
+
+        function closeAlert(alertId) {
+            const alertElement = document.getElementById(alertId);
+            alertElement.classList.remove("show");
+        }
+    </script>
+</body>
+
+</html>
